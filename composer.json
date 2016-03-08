@@ -10,5 +10,10 @@
             "email": "psokarovski@gmail.com",
             "homepage": "https://github.com/sokarovski"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "PS\\": "src/"
+        }
+    }
 }

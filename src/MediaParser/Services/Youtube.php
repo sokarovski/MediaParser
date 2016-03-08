@@ -13,7 +13,7 @@ class Youtube implements Service {
      * @return [boolean] weather the string contains link to youtube video
      */
     static function match($string) {
-        return preg_match('/(http(s)?:)?\/\/(www.)?youtube|youtu\.be/ig', $string);
+        return preg_match('/(http(s)?:)?\/\/(www.)?youtube|youtu\.be/i', $string);
     }
 
     /**
@@ -24,15 +24,15 @@ class Youtube implements Service {
     static function parse($fromString) {
         $id = false;
 
-        if (preg_match('/\.com\/embed\//', $url)) {
-            $parts = explode('embed/', $url);
+        if (preg_match('/\.com\/embed\//', $fromString)) {
+            $parts = explode('embed/', $fromString);
             $id = $parts[1];
             $parts = explode('"', $id);
             $id = $parts[0];
         } else {
-            $parts = preg_split('/v\/|v=|youtu\.be\//', $url);
+            $parts = preg_split('/v\/|v=|youtu\.be\//', $fromString);
             $id = $parts[1];
-            $parts = preg_split('/[?&]/', $id);
+            $parts = preg_split('/[?& ]/', $id);
             $id = $parts[0];
         }
 

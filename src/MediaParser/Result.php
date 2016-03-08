@@ -28,7 +28,7 @@ class Result {
      */
     public function __construct($service, $id) {
         $this->service = $service;
-        $this->type = $service::serviceIdentifier;
+        $this->type = $service::$serviceIdentifier;
         $this->id = $id;
     }
 
@@ -37,8 +37,10 @@ class Result {
      * @return [string] the embedable code
      */
     public function embed() {
-        if ($this->service && $this->id != '')
-            return $this->service::embed($id);
+        if ($this->service && $this->id != ''){
+            $class = $this->service;
+            return $class::embed($id);
+        }
 
         return '';
     }

@@ -13,7 +13,7 @@ class Vimeo implements Service {
      * @return [boolean] weather the string contains link to vimeo video
      */
     static function match($string) {
-        return preg_match('/http(s)?:\/\/(player.)?vimeo\.com/ig', $string);
+        return preg_match('/http(s)?:\/\/(player.)?vimeo\.com/i', $string);
     }
 
     /**
@@ -23,9 +23,9 @@ class Vimeo implements Service {
      */
     static function parse($fromString) {
         $id = false;
-        $parts = explode('/', $url);
+        $parts = explode('/', $fromString);
         $id = array_pop($parts);
-        $parts = preg_split('/[?&]/', $id);
+        $parts = preg_split('/[?& ]/', $id);
         $id = $parts[0];
         return $id;
     }

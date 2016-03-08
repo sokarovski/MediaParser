@@ -1,5 +1,6 @@
 <?php 
 namespace PS;
+
 use PS\MediaParser\Result;
 
 class MediaParser {
