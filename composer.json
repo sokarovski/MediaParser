@@ -1,0 +1,14 @@
+{
+    "name": "PS/MediaParser",
+    "type": "library",
+    "description": "PHP library that parses embedable strings and fully qualified me URLs and extracts content id's so they can be used later for embeding",
+    "keywords": ["embed", "media", "url", "parse", "id", "youtube"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petar Sokarovski",
+            "email": "psokarovski@gmail.com",
+            "homepage": "https://github.com/sokarovski"
+        }
+    ]
+}
