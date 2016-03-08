@@ -11,9 +11,12 @@
             "homepage": "https://github.com/sokarovski"
         }
     ],
+    "require-dev": {
+        "phpunit/phpunit": "5.2.*"
+    },
     "autoload": {
         "psr-4": {
-            "PS\\": "src/"
+            "PS\\MediaParser\\": "src/MediaParser/"
         }
     }
 }

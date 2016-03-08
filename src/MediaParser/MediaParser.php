@@ -1,5 +1,5 @@
 <?php 
-namespace PS;
+namespace PS\MediaParser;
 
 use PS\MediaParser\Result;
 
