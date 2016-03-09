@@ -1,11 +1,12 @@
 <?php 
 namespace PS\MediaParser\Services;
 
-use PS\MediaParser\Service;
+use PS\MediaParser\ServiceContract;
+use PS\MediaParser\Result;
 
-class Vimeo implements Service {
+class Vimeo extends Result implements ServiceContract {
 
-    static $serviceIdentifier = "vimeo";
+    static $type = "vimeo";
 
     /**
      * Tests to see if a string or URL actualy contains link to a vimeo video
@@ -17,11 +18,11 @@ class Vimeo implements Service {
     }
 
     /**
-     * Returns vimeo video id from a given string. The string can be either url or iframe embed. 
+     * Parses a string into a result
      * @param  [string] $fromString input string that needs to be tested
-     * @return [string|boolean] false if the id cannot be found or the id itself
+     * @return [boolean] weather parsing was succesfull or not
      */
-    static function parse($fromString) {
+    protected function parse($fromString) {
         $isSluged = preg_match('/vimeo\.com\/(?!channels\/|video\/)[a-z0-9\-\_]+\/[a-z0-9\-\_]+( |$|"){1}/i', $fromString);
         if ($isSluged) {
             $fromString = self::followFinalUrl($fromString);
@@ -30,12 +31,19 @@ class Vimeo implements Service {
         }
 
         $matches = array();
-        if (preg_match('/vimeo\.com\/(video\/|channels\/[a-z0-9\-\_]+\/)?(\d+)/i', $fromString, $matches)) 
-            return $matches[2];
+        if (preg_match('/vimeo\.com\/(video\/|channels\/[a-z0-9\-\_]+\/)?(\d+)/i', $fromString, $matches)) {
+            $this->id = $matches[2];
+            return true;
+        }
         
         return false;
     }
 
+    /**
+     * Follows an url until it redirects so we can get the final effective url
+     * @param  [string] $sluged an url that needs to be followed
+     * @return [string] the final url
+     */
     private static function followFinalUrl($sluged) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1");
@@ -53,8 +61,12 @@ class Vimeo implements Service {
      * @param  [string] $id the id that needs to be embeded
      * @return [string] the embedable code
      */
-    static function embed($id) {
-        return '<iframe frameborder="0" allowfullscreen src="//player.vimeo.com/video/'.$this->id.'"></iframe>';
+    public function embed() {
+        return '<iframe frameborder="0" allowfullscreen src="'.$this->getLink().'"></iframe>';
+    }
+
+    public function getLink() {
+        return '//player.vimeo.com/video/'.$this->id;
     }
 
 }

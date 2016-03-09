@@ -23,7 +23,7 @@ class MediaParser {
     static function parse($string) {
         foreach (self::$services as $service) {
             if ($service::match($string))
-                return new Result($service, $service::parse($string));
+                return new $service($string);
         }
 
         return false;

@@ -43,7 +43,8 @@ class YoutubeServiceTest extends PHPUnit_Framework_TestCase {
      * @group ignore
      */
     public function testParsing($url, $expected) {
-        $this->assertEquals($expected, Youtube::parse($url));
+        $youtube = new Youtube($url);
+        $this->assertEquals($expected, $youtube->id);
     }
 
 }

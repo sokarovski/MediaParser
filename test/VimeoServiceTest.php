@@ -49,7 +49,8 @@ class VimeoServiceTests extends PHPUnit_Framework_TestCase {
      * @group ignore
      */
     public function testParsing($url, $expected) {
-        $this->assertEquals($expected, Vimeo::parse($url));
+        $vimeo = new Vimeo($url);
+        $this->assertEquals($expected, $vimeo->id);
     }
 
 }

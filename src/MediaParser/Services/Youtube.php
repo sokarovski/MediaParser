@@ -1,11 +1,12 @@
 <?php 
 namespace PS\MediaParser\Services;
 
-use PS\MediaParser\Service;
+use PS\MediaParser\ServiceContract;
+use PS\MediaParser\Result;
 
-class Youtube implements Service {
+class Youtube extends Result implements ServiceContract {
 
-    static $serviceIdentifier = "youtube";
+    static $type = "youtube";
 
     /**
      * Tests to see if a string or URL actualy contains link to a youtube video
@@ -17,11 +18,11 @@ class Youtube implements Service {
     }
 
     /**
-     * Returns youtube video id from a given string. The string can be either url or iframe embed. 
+     * Parses a string into a result
      * @param  [string] $fromString input string that needs to be tested
-     * @return [string|boolean] false if the id cannot be found or the id itself
+     * @return [boolean] weather parsing was succesfull or not
      */
-    static function parse($fromString) {
+    protected function parse($fromString) {
         $id = false;
 
         if (preg_match('/\.com\/embed\//', $fromString)) {
@@ -35,8 +36,9 @@ class Youtube implements Service {
             $parts = preg_split('/[?& ]/', $id);
             $id = $parts[0];
         }
-
-        return $id;
+        
+        $this->id = $id;
+        return $id !== false;
     }
 
     /**
@@ -44,8 +46,12 @@ class Youtube implements Service {
      * @param  [string] $id the id that needs to be embeded
      * @return [string] the embedable code
      */
-    static function embed($id) {
-        return '<iframe frameborder="0" allowfullscreen src="//www.youtube.com/embed/'.$this->id.'"></iframe>';
+    public function embed() {
+        return '<iframe frameborder="0" allowfullscreen src="'.$this->getLink().'"></iframe>';
+    }
+
+    public function getLink() {
+        return '//www.youtube.com/embed/'.$this->id;
     }
 
 }
