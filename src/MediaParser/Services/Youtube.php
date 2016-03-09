@@ -50,6 +50,10 @@ class Youtube extends Result implements ServiceContract {
         return '<iframe frameborder="0" allowfullscreen src="'.$this->getLink().'"></iframe>';
     }
 
+    /**
+     * Get the representative link of the current media
+     * @return [string] link to the media
+     */
     public function getLink() {
         return '//www.youtube.com/embed/'.$this->id;
     }

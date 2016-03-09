@@ -6,6 +6,13 @@ PHP MediaParser that parses media string and urls and extracts id so they can be
 
 - PHP >=5.4
 
+## Supported media and services
+
+- Youtube (videos)
+- Vimeo (videos)
+- Twitter (tweet)
+- Facebook (post)
+
 ## Code Examples
 
 ```php
@@ -45,6 +52,16 @@ use PS\MediaParser\MediaParser;
 // embed youtube video
 $result = MediaParser::parse('https://www.youtube.com/watch?v=V9Pg4f0v3dg');
 echo $result->embed(); //<iframe frameborder="0" allowfullscreen src="//www.youtube.com/embed/V9Pg4f0v3dg"></iframe>
+
+```
+
+```php
+
+use PS\MediaParser\MediaParser;
+
+// embed facebook post
+$result = MediaParser::parse('https://www.facebook.com/tanerius/posts/10154080577757125');
+echo $result->embed(); //will print out HTML to embed the post in your page
 
 ```
 

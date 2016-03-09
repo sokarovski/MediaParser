@@ -14,7 +14,7 @@ class Twitter extends Result implements ServiceContract {
      * @return [boolean] weather the string contains link to tweet or not
      */
     static function match($string) {
-        return preg_match('/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/\d+/i', $string);
+        return preg_match('/\/(www\.)?twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/\d+/i', $string);
     }
 
     /**
@@ -24,9 +24,9 @@ class Twitter extends Result implements ServiceContract {
      */
     protected function parse($fromString) {
         $matches = array();
-        if (preg_match('/twitter\.com\/([a-zA-Z0-9_]{1,15})\/status\/(\d+)/i', $fromString, $matches)) {
-            $this->setParameter('username', $matches[1]);
-            $this->id = $matches[2];
+        if (preg_match('/\/(www\.)?twitter\.com\/([a-zA-Z0-9_]{1,15})\/status\/(\d+)/i', $fromString, $matches)) {
+            $this->setParameter('username', $matches[2]);
+            $this->id = $matches[3];
             return true;
         }
         
@@ -42,6 +42,10 @@ class Twitter extends Result implements ServiceContract {
         return '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr"> <a href="'.$this->getLink().'">date</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
     }
 
+    /**
+     * Get the representative link of the current media
+     * @return [string] link to the media
+     */
     public function getLink() {
         return 'https://twitter.com/'.$this->getParameter('username').'/status/'.$this->id;
     }

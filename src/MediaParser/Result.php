@@ -63,6 +63,10 @@ abstract class Result {
         return $this->extraData == NULL ? array() : $this->extraData;
     }
 
+    /**
+     * Get the representative link of the current media
+     * @return [string] link to the media
+     */
     public function getLink() {
         return '';
     }
